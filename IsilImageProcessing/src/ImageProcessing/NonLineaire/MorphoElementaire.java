@@ -12,7 +12,8 @@ package ImageProcessing.NonLineaire;
 public class MorphoElementaire {
 
     public static int[][] erosion(int[][] image, int tailleMasque) {
-        int[] P = new int[9];
+        int[] P = new int[tailleMasque * tailleMasque];
+        int pix = 0;
 
         int max = 0;
         int width = image.length;
@@ -23,36 +24,34 @@ public class MorphoElementaire {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 max = 0;
+                pix = 0;
                 // get current pixel and surround pixels 
                 try {
-                    P[0] = image[i - 1][j - 1];
-                    P[1] = image[i - 1][j];
-                    P[2] = image[i - 1][j + 1];
-                    P[3] = image[i][j - 1];
-                    P[4] = image[i][j];
-                    P[5] = image[i][j + 1];
-                    P[6] = image[i + 1][j - 1];
-                    P[7] = image[i + 1][j];
-                    P[8] = image[i + 1][j + 1];
+                    for (int l = tailleMasque / 2; l >= -tailleMasque / 2; l--) {
+                        for (int m = tailleMasque / 2; m >= -tailleMasque / 2; m--, pix++) {
+                            P[pix] = image[i - l][j - m];
+                        }
+                    }
                 } catch (IndexOutOfBoundsException e) {
-                    P[0] = 0;
-                    P[1] = 0;
-                    P[2] = 0;
-                    P[3] = 0;
-                    P[4] = image[i][j];
-                    P[5] = 0;
-                    P[6] = 0;
-                    P[7] = 0;
-                    P[8] = 0;
+                    pix = 0;
+                    for (int l = tailleMasque / 2; l > -tailleMasque / 2; l--) {
+                        for (int m = tailleMasque / 2; m > -tailleMasque / 2; m--, pix++) {
+                            if (pix == tailleMasque + 1) {
+                                P[pix] = image[i][j];
+                            } else {
+                                P[pix] = 0;
+                            }
+                        }
+                    }
                 }
 
                 // search for the max value around current pixel
-                for (int k = 0; k < 9; k++) {
-                    if (P[k] == 255 && k != 4) {
+                for (int k = 0; k < tailleMasque * tailleMasque; k++) {
+                    if (P[k] == 255 && k != tailleMasque + 1) {
                         max = 255;
                         break;
                     }
-                    if (k != 4 && P[k] > max) {
+                    if (k != tailleMasque + 1 && P[k] > max) {
                         max = P[k];
                     }
                 }
@@ -63,7 +62,8 @@ public class MorphoElementaire {
     }
 
     public static int[][] dilatation(int[][] image, int tailleMasque) {
-        int[] P = new int[9];
+        int[] P = new int[tailleMasque * tailleMasque];
+        int pix = 0;
 
         int max = 255;
         int width = image.length;
@@ -74,36 +74,34 @@ public class MorphoElementaire {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 max = 255;
+                pix = 0;
                 // get current pixel and surround pixels 
                 try {
-                    P[0] = image[i - 1][j - 1];
-                    P[1] = image[i - 1][j];
-                    P[2] = image[i - 1][j + 1];
-                    P[3] = image[i][j - 1];
-                    P[4] = image[i][j];
-                    P[5] = image[i][j + 1];
-                    P[6] = image[i + 1][j - 1];
-                    P[7] = image[i + 1][j];
-                    P[8] = image[i + 1][j + 1];
+                    for (int l = tailleMasque / 2; l >= -tailleMasque / 2; l--) {
+                        for (int m = tailleMasque / 2; m >= -tailleMasque / 2; m--, pix++) {
+                            P[pix] = image[i - l][j - m];
+                        }
+                    }
                 } catch (IndexOutOfBoundsException e) {
-                    P[0] = 0;
-                    P[1] = 0;
-                    P[2] = 0;
-                    P[3] = 0;
-                    P[4] = image[i][j];
-                    P[5] = 0;
-                    P[6] = 0;
-                    P[7] = 0;
-                    P[8] = 0;
+                    pix = 0;
+                    for (int l = tailleMasque / 2; l > -tailleMasque / 2; l--) {
+                        for (int m = tailleMasque / 2; m > -tailleMasque / 2; m--, pix++) {
+                            if (pix == tailleMasque + 1) {
+                                P[pix] = image[i][j];
+                            } else {
+                                P[pix] = 0;
+                            }
+                        }
+                    }
                 }
 
                 // search for the max value around current pixel
-                for (int k = 0; k < 9; k++) {
-                    if (P[k] == 0 && k != 4) {
+                for (int k = 0; k < tailleMasque * tailleMasque; k++) {
+                    if (P[k] == 0 && k != tailleMasque + 1) {
                         max = 0;
                         break;
                     }
-                    if (k != 4 && P[k] < max) {
+                    if (k != tailleMasque + 1 && P[k] < max) {
                         max = P[k];
                     }
                 }

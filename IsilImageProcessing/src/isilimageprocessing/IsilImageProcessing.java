@@ -1011,7 +1011,7 @@ public class IsilImageProcessing extends javax.swing.JFrame implements ClicListe
     private void jMenuTraitementNonLineaireElementaireErosionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTraitementNonLineaireElementaireErosionActionPerformed
         // Erosion
         try {
-            int tmp[][] = MorphoElementaire.erosion(imageNG.getMatrice(), 5);
+            int tmp[][] = MorphoElementaire.erosion(imageNG.getMatrice(), AskForAMask());
             CImageNG img = new CImageNG(tmp);
             observer.setCImage(img);
         } catch (CImageNGException ex) {
@@ -1022,7 +1022,7 @@ public class IsilImageProcessing extends javax.swing.JFrame implements ClicListe
     private void jMenuTraitementNonLineaireElementaireDilatationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTraitementNonLineaireElementaireDilatationActionPerformed
         // Dilatation
         try {
-            int tmp[][] = MorphoElementaire.dilatation(imageNG.getMatrice(), 5);
+            int tmp[][] = MorphoElementaire.dilatation(imageNG.getMatrice(), AskForAMask());
             CImageNG img = new CImageNG(tmp);
             observer.setCImage(img);
         } catch (CImageNGException ex) {
@@ -1033,7 +1033,7 @@ public class IsilImageProcessing extends javax.swing.JFrame implements ClicListe
     private void jMenuTraitementNonLineaireElementaireOuvertureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTraitementNonLineaireElementaireOuvertureActionPerformed
         // Ouverture
         try {
-            int tmp[][] = MorphoElementaire.ouverture(imageNG.getMatrice(), 5);
+            int tmp[][] = MorphoElementaire.ouverture(imageNG.getMatrice(), AskForAMask());
             CImageNG img = new CImageNG(tmp);
             observer.setCImage(img);
         } catch (CImageNGException ex) {
@@ -1044,7 +1044,7 @@ public class IsilImageProcessing extends javax.swing.JFrame implements ClicListe
     private void jMenuTraitementNonLineaireElementaireFermetureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuTraitementNonLineaireElementaireFermetureActionPerformed
         // Fermeture
         try {
-            int tmp[][] = MorphoElementaire.fermeture(imageNG.getMatrice(), 5);
+            int tmp[][] = MorphoElementaire.fermeture(imageNG.getMatrice(), AskForAMask());
             CImageNG img = new CImageNG(tmp);
             observer.setCImage(img);
         } catch (CImageNGException ex) {
@@ -1149,6 +1149,12 @@ public class IsilImageProcessing extends javax.swing.JFrame implements ClicListe
                 new IsilImageProcessing().setVisible(true);
             }
         });
+    }
+
+    public int AskForAMask() {
+        String tailleMasque = JOptionPane.showInputDialog("Entrez la taille du masque: ");
+        int masque = Integer.parseInt(tailleMasque);
+        return masque; 
     }
 
     public void ClicDetected(UnClicEvent e) {
